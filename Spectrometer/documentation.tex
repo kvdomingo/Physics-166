@@ -1,0 +1,165 @@
+\documentclass[12pt,a4paper,twoside]{article}
+\input{166.dat}
+\usepackage{gensymb}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{mathtools}
+\usepackage[none]{hyphenat}
+\usepackage{physics}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+%\renewcommand{\familydefault}{\sfdefault}
+\usepackage{booktabs,tabularx}
+\renewcommand{\tabularxcolumn}{m}
+\usepackage{listings}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\usepackage{color, colortbl}
+\definecolor{cyan}{rgb}{0.85,0.89,0.95}
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{\fill}
+
+\Huge{ Live-Feed-over-LAN Camera Spectrometer (LoLAN-CaS) Documentation} \\
+
+\qquad
+\qquad
+
+\normalsize{Members: \\ 
+Andrea Rica Advincula \\
+Creo Baylon \\
+Kenneth Domingo \\
+Rene Principe Jr. \\
+Lou Josef Tan}
+
+\vspace*{\fill}
+\end{center}
+\end{titlepage}
+
+\setcounter{page}{1}
+
+\section{Overview}\label{sec:overview}
+\medskip
+The Live-Feed-over-LAN Camera Spectrometer (LoLAN-CaS) is an implementation of a spectrometer which can use any Android-based phone camera. On the hardware end, the camera broadcasts through a local area network (LAN) using a pre-set IP address. On the software end, the feed can be retrieved, processed, and displayed in real-time through any Python interpreter on a device connected on the same network. The spectrometer program depends on the following Python libraries:
+
+\begin{itemize}
+
+\item Numpy
+\item Matplotlib
+\item Scipy
+\item OpenCV
+\item Peakutils
+\item URLlib
+
+\end{itemize}
+
+The current features are as follows:
+
+\begin{itemize}
+
+\item Calibration information can be set within the program itself.
+\item Live feed of camera and corresponding intensity profile of a selected line scan region can be displayed in real-time on a computer with the required dependencies installed.
+\item Scale of relative intensity profile can be set by the initial camera exposure settings but is always normalized.
+
+\end{itemize}
+
+\section{Theory}\label{sec:theory}\medskip
+
+\section{Setup}\label{sec:setup}\medskip
+
+\section{Program}\label{sec:program}\medskip
+
+\subsection{\texttt{\footnotesize{Spectrometer}\normalsize{.\_\_init\_\_(calibrationLocation, calibrationWavelengths, lowerPix, upperPix, lowerBound, upperBound)}}}
+Instantiates the \texttt{Spectrometer} object and takes the calibration arguments.
+
+\begin{table}[H]
+    \caption{Program initialization.}
+    \begin{tabular}{>{\columncolor{cyan}}p{2in} p{4in}}
+        \hline
+        \textbf{Parameters} & \texttt{calibrationLocation : array\_like} \\
+        &   Pixel locations of the peaks of the calibration image. \\ 
+        & \texttt{calibrationWavelengths : array\_like} \\
+        &   Corresponding wavelengths of \texttt{calibrationLocation}. \\
+        & \texttt{lowerPix : int} \\
+        &   Specifies pixel location of \texttt{lowerBound} (optional). \\
+        & \texttt{upperPix : int} \\
+        &   Specifies pixel location of \texttt{lowerBound} (optional). \\
+        & \texttt{lowerBound : float} \\
+        &	Specifies wavelength lower bound. \\
+        & \texttt{upperBound : float} \\
+        &	Specifies wavelength upper bound. \\ \hline
+    \end{tabular}
+    \label{tab:prog-init}
+\end{table}
+
+\subsection{\texttt{\footnotesize{Spectrometer}\normalsize{.plotCalibration()}}}
+
+Plots the calibration curve and corresponding pixel-to-wavelength equation using linear regression.
+
+\subsection{\texttt{\footnotesize{Spectrometer}\normalsize{.LineScan\_snapshot(image\_name, peaks, window\_length, polyorder)}}}
+
+\begin{table}[H]
+    \caption{\texttt{LineScan\_snapshot} arguments.}
+    \begin{tabular}{>{\columncolor{cyan}}p{2in} p{4in}}
+        \hline
+        \textbf{Parameters} & \texttt{image\_name : str} \\
+        &   File name of locally-stored image. \\ 
+        & \texttt{peaks : bool} \\
+        &   Sets whether peak points should be indicated on intensity profile. \\
+        & \texttt{window\_length : int} \\
+        &   Specifies window length of Savitsky-Golay filter. \\
+        & \texttt{polyorder : int} \\
+        &   Specifies polynomial order of Savitsky-Golay filter. \\ \hline
+    \end{tabular}
+    \label{tab:prog-lssnapshot}
+\end{table}
+
+\subsection{\texttt{\footnotesize{Spectrometer}\normalsize{.LineScan\_live(URL, show\_peaks, window\_length, polyorder)}}}
+
+\begin{table}[H]
+    \caption{\texttt{LineScan\_live} arguments.}
+    \begin{tabular}{>{\columncolor{cyan}}p{2in} p{4in}}
+        \hline
+        \textbf{Parameters} & \texttt{URL : str} \\
+        &   IP address of capturing device (Android-based phone camera only). \\ 
+        & \texttt{show\_peaks : bool} \\
+        &   Sets whether peak points should be indicated on intensity profile. \\
+        & \texttt{window\_length : int} \\
+        &   Specifies window length of Savitsky-Golay filter. \\
+        & \texttt{polyorder : int} \\
+        &   Specifies polynomial order of Savitsky-Golay filter. \\ \hline
+    \end{tabular}
+    \label{tab:prog-lslive}
+\end{table}
+
+\section{Demonstration}
+
+
+
+\section*{Appendix}
+Source code: \\
+\url{https://colab.research.google.com/drive/1VMUdZ9GGeLgUW5F7rmk0VZNeu9xxkdcU}.
+
+%\bibliographystyle{spp-bst}
+%\bibliography{bibfile}
+
+%\raggedbottom
+
+%\pagebreak
+%\pagebreak[3]
+\iffalse
+\newpage
+
+\renewcommand\thefigure{A\arabic{figure}} 
+\setcounter{figure}{0}
+\fi %removing this will break the code for some reason
+
+\end{document}
+
