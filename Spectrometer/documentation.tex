@@ -70,9 +70,31 @@ The current features are as follows:
 
 \end{itemize}
 
-\section{Theory}\label{sec:theory}\medskip
-
 \section{Setup}\label{sec:setup}\medskip
+
+A spectrometer is composed of an emission source, an optical system, and a detector. The emission source is a gas-discharge lamp; the detector is a cellular phone; and the optical system was constructed out of office supplies. 
+
+The construction of the optical system is fairly straight forward. A dark chamber was constructed by folding the cardboard box into a $10 \times 15 \times 8$ cm rectangular prism. The dimensions used are dependent on the average size of a smartphone; to hold the phone, extensions were attached to the rectangular prism as shown in Fig. \ref{fig1}. A rectangular hole was cut on the rectangular prism on the side of the phone holder; the hole was strategically placed on the location where the camera is positioned to which the diffraction grating is attached. On the far right corner from the diffraction grating, a portion of the prism is cut for the placement of the slit (Fig. \ref{fig2}); the slit was constructed by cutting a $6 \times 10$ cm rectangular piece of folder and slicing through the center, whose width is kept constant at approximately 1 mm. 
+
+\begin{figure}[h!]
+	\centering
+	\subfloat[Side view of the setup.]{\makebox[0.5\textwidth]{{\includegraphics[width=0.4\textwidth]{setup.PNG}\label{fig1}}}}
+	\subfloat[Tilted view of the setup.]{\makebox[0.5\textwidth]{{\includegraphics[width=0.48\textwidth]{right(1).PNG}\label{fig2}}}}
+	\caption{3D design of LoLAN-CaS hardware using Sketchup}\label{figg1}
+\end{figure}
+
+\section{Operation}\label{sec:operation}\medskip
+The optical system is positioned in front of the light source such that the slit is directly facing the light source; the slit width dictates the resolution of the entering light with enough intensity to be able to measure the spectral lines \cite{slit}. 
+
+Since the diffraction grating used is a re-purposed CD, the gratings are radial which explains why the slit is positioned at an angle with respect to the grating. When the entering light strikes the diffraction grating, it splits into its spectral components which is then captured by the camera and displayed on the phone (Fig. \ref{setup}).
+
+\begin{figure} [!h]
+	\centering
+	\includegraphics[width=0.6\linewidth]{setup1.PNG}
+	\caption{\label{setup} Spectrometer schematic diagram}
+\end{figure}
+
+Using the Android app IPWebcam, the camera feed is broadcast in full resolution (1080p) through a local network. A computer or laptop connected on the same network can send an \texttt{HTTP GET} request to the phone's local IP and port to initiate the data stream. The image is then converted to grayscale and a pre-determined calibration curve is used to convert the pixel location values to wavelength.
 
 \section{Program}\label{sec:program}\medskip
 
@@ -132,16 +154,55 @@ Plots the calibration curve and corresponding pixel-to-wavelength equation using
         & \texttt{show\_peaks : bool} \\
         &   Sets whether peak points should be indicated on intensity profile. \\
         & \texttt{window\_length : int} \\
-        &   Specifies window length of Savitsky-Golay filter. \\
+        &   Specifies window length of Savitzky-Golay filter. \\
         & \texttt{polyorder : int} \\
-        &   Specifies polynomial order of Savitsky-Golay filter. \\ \hline
+        &   Specifies polynomial order of Savitzky-Golay filter. \\ \hline
     \end{tabular}
     \label{tab:prog-lslive}
 \end{table}
 
 \section{Demonstration}
+Figure \ref{fig:calibration} shows the calibration curve obtained from a helium vapor lamp. An image is taken through the spectrometer setup and a line scan is taken through the apparent center of the spectral lines. Using literature values, each pixel is mapped to a wavelength using the equation $\textrm{wavelength} = 0.68(\textrm{pixel\_location}) - 855.76$, obtained by linear regression.
 
+Figures \ref{fig:hydrogen}-\ref{fig:white} show the emission spectra of various light sources obtained using LoLAN-CaS. A snapshot of the camera feed is shown on the left-hand plot and its corresponding spectrum on the right-hand side. The portion taken from the line scan is shown as an inset on the right-hand figure. The wavelength values are also shown for each peak.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{calibcurve.png}
+	\caption{Calibration curve obtained using a helium vapor lamp.}
+	\label{fig:calibration}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{HYDROGEN.png}
+	\caption{Emission spectrum of hydrogen.}
+	\label{fig:hydrogen}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{HELIUM.png}
+	\caption{Emission spectrum of helium.}
+	\label{fig:helium}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{MERCURY.png}
+	\caption{Emission spectrum of mercury.}
+	\label{fig:mercury}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{WHITE.png}
+	\caption{Emission spectrum of a white LED flashlight.}
+	\label{fig:white}
+\end{figure}
+
+\bibliographystyle{spp-bst}
+\bibliography{bibfile}
 
 \section*{Appendix}
 Source code: \\
